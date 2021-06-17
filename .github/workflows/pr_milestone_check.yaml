@@ -1,0 +1,19 @@
+name: PRs Labels
+
+on:
+  pull_request_review:
+    types: [submitted]
+  pull_request_review_comment:
+    types: [created]
+  pull_request_target:
+    types: [opened, reopened, edited, ready_for_review, labeled, unlabeled, synchronize]
+
+jobs:
+  label:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: pmalek-sumo/verify-pr-label-action@v1.4.1
+        with:
+          github-token: '${{ secrets.GITHUB_TOKEN }}'
+          invalid-labels: 'do-not-merge/hold'
+          pull-request-number: '${{ github.event.pull_request.number }}'
